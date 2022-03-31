@@ -1,0 +1,117 @@
+<lib-form-template [formTitle]="formTitle" hasButtonClose=true>
+  <div class="col" form-content>
+    <br />
+    <lib-datos-solicitante-shared [formData]="formData" *ngIf="visaTitular"></lib-datos-solicitante-shared>
+    <lib-datos-beneficiario-shared [formData]="formData" hasConadis="true" [visaTitular]="visaTitular">
+    </lib-datos-beneficiario-shared>
+    <hr>
+
+    <div *ngIf="mostrarInformacionBancoUnidadAdministrativa">
+      <div class="row pb-0 pt-0">
+        <div class="card-body">
+          <h3 class="card-title">Información de la cuenta bancaria</h3>
+
+          <div class="row">
+            <div class="col-2 text-right">
+              <label class="font-weight-bolder">Banco:</label>
+            </div>
+            <div class="col-4 text-left">
+              <labe>{{unidadAdministrativa.banco}}</labe>
+            </div>
+            <div class="col-2 text-right">
+              <label class="font-weight-bolder">Tipo de cuenta:</label>
+            </div>
+            <div class="col-4 text-left">
+              <labe>{{unidadAdministrativa.tipoCuentaBancaria}}</labe>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-2 text-right">
+              <label class="font-weight-bolder">Titular de la cuenta:</label>
+            </div>
+            <div class="col-4 text-left">
+              <labe>{{unidadAdministrativa.titularCuentaBancaria}}</labe>
+            </div>
+            <div class="col-2 text-right">
+              <label class="font-weight-bolder">Número de cuenta:</label>
+            </div>
+            <div class="col-4 text-left">
+              <labe>{{unidadAdministrativa.numeroCuentaBancaria}}</labe>
+            </div>
+          </div>
+
+
+        </div>
+
+      </div>
+
+      <hr>
+    </div>
+
+    <div class="row">
+
+      <div class="card-body">
+        <h3 class="card-title">Forma de pago</h3>
+
+        <div class="row justify-content-center">
+          <div class="col-8">
+            <ngx-datatable [rows]="registrosMostrar" [rowHeight]="'auto'"
+              [messages]="{emptyMessage: 'No existen registros a mostrar', totalMessage: 'Total'}" default>
+
+              <ngx-datatable-column [name]="'Descripción'" [sortable]="false">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                  {{row.descripcion}}
+                </ng-template>
+              </ngx-datatable-column>
+
+              <ngx-datatable-column [name]="'Valor'" [sortable]="false">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                  USD {{row.valor | number: '1.2-2'}}
+                </ng-template>
+              </ngx-datatable-column>
+
+            </ngx-datatable>
+          </div>
+        </div>
+
+        <div *ngIf="mostrarFormularioTipoPago">
+
+          <form [formGroup]="formulario">
+
+            <div class="row text-center">
+              <div class="col-12">
+                <p class="font-weight-bolder">Seleccione la forma de pago</p>
+              </div>
+            </div>
+            <div class="row text-center">
+              <div class="col-12">
+
+                <div class="custom-checkbox custom-control">
+                  <input class="custom-control-input" id="tipoPago" type="checkbox" formControlName="tipoPago">
+                  <label class="custom-control-label" for="tipoPago">
+                    <strong>Depósito</strong>
+                  </label>
+
+                </div>
+
+              </div>
+            </div>
+
+            <div class="row justify-content-end">
+              <div class="form-group">
+                <button type="button" class="btn btn-primary botonAlign" [disabled]="formulario.invalid"
+                  (click)="guardarFormulario()">Guardar</button>
+              </div>
+            </div>
+
+          </form>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+  </div>
+</lib-form-template>

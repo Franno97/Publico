@@ -1,0 +1,84 @@
+<div class="card-body">
+    <form [formGroup]="formData">
+        <div class="form-group">
+            <hr>
+            <h3 class="card-title">Datos visa beneficiario</h3>
+            <input type="hidden" formControlName="visaControl">
+            <div class="row" *ngIf="tieneVisaCiudadano">
+                <div class="col-md-6 col-sm-12">
+                    <div class="row">
+                        <div class="col">
+                            <label class="font-weight-bolder">Usted posee una visa</label>
+                        </div>
+
+                        <!-- <div class="col">
+                            <div class="row justify-content-center">
+                                <div class="form-check col-md-4">
+                                    <input class="form-check-input" type="radio" value="Si" formControlName="visaControl" (change)="handleChange($event)" name="visaControl" id="flexRadioDefault1">
+                                    <label class="form-check-label" for="flexRadioDefault1">
+                                        Si
+                                    </label>
+                                </div>
+                                <div class="form-check col-md-4">
+                                    <input class="form-check-input" type="radio" value="No" formControlName="visaControl" name="visaControl" (change)="handleChange($event)" id="flexRadioDefault2">
+                                    <label class="form-check-label" for="flexRadioDefault2">
+                                        No
+                                    </label>
+                                </div>
+                            </div>
+                        </div> -->
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="form-group" *ngIf="showAlertDatosVisa==false">
+            <div class="row">
+                <div class="col col-md-6 col-sm-12">
+                    <lib-input-field *ngFor="let item of arrField5" [formControlData]="formData"
+                        placeHolder={{item.placeHolder}} typeInput={{item.typeInput}} icon={{item.icon}}
+                        [contentInfo]="item.contentInfo" [formCtrlName]='item.formCtrolName'></lib-input-field>
+                </div>
+                <div class="col col-md-6 col-sm-12">
+                    <lib-input-field *ngFor="let item of arrField6" [formControlData]="formData"
+                        placeHolder={{item.placeHolder}} typeInput={{item.typeInput}} icon={{item.icon}}
+                        [contentInfo]="item.contentInfo" [formCtrlName]='item.formCtrolName'></lib-input-field>
+                </div>
+            </div>
+            <br>
+
+            <div class="row">
+                <div class="col-md-9 alert alert-danger">
+                    <p>Estimado ciudadano/a: Si usted posee una visa vigente, en caso de que la presente solicitud de
+                        visa sea aprobada, su visa actual entrará en un proceso de cancelación.
+                        <br>
+                        <br> ¿Desea que el proceso de cancelacion se realice?
+                        <br>
+                        <br> De elegir NO el proceso de visa se cancelará
+                    </p>
+                </div>
+
+                <div class="col-md-2">
+                    <!--style="align-self:end"-->
+
+                    <div class="form-check ">
+                        <input class="form-check-input" type="radio" formControlName="ConfirmacionVisa" value="Si"
+                            name="ConfirmacionVisa" id="flexRadioDefault3" checked>
+                        <label class="form-check-label" for="flexRadioDefault3">
+                            Si
+                        </label>
+                    </div>
+                    <div class="form-check ">
+                        <input class="form-check-input" type="radio" formControlName="ConfirmacionVisa" value="No"
+                            name="ConfirmacionVisa" id="flexRadioDefault4">
+                        <label class="form-check-label" for="flexRadioDefault4">
+                            No
+                        </label>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

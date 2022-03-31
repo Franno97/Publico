@@ -1,0 +1,73 @@
+<br>
+<mat-horizontal-stepper #stepper class="container" [selectedIndex]="clickStepper[0]"
+    (selectionChange)="cambioPestana($event)">
+    <mat-step [stepControl]="firstFormGroup">
+        <div class="row">
+            <div class="col-sm-12  col-md-3 card">
+                <div class="card-body">
+                    <div style="text-align: center;">
+                        <img class="slidecaption" style="max-width:50%" src="../../../../../assets/images/Endpoint.png"
+                            alt="">
+                    </div>
+                    <div style="text-align: justify;" [innerHTML]="informacion"></div>
+                </div>
+            </div>
+
+            <lib-tipo-de-visa class="col-sm-12  col-md-9 card" (InformacionTexto)="InformacionLateral($event, 'aviso')"
+                (formGroupEmit)="assigFormToStep($event,1)" (stepperEmit)="clickNext($event)"></lib-tipo-de-visa>
+
+        </div>
+    </mat-step>
+    <mat-step [stepControl]="secondFormGroup">
+        <div class="row">
+            <div class="col-sm-12 col-md-3 card">
+                <div class="card-body">
+                    <div style="text-align: center;">
+                        <img class="slidecaption" style="max-width:50%" src="../../../../../assets/images/Endpoint.png"
+                            alt="">
+                    </div>
+                    <div style="text-align: justify;" [innerHTML]="informacionMDGVisa"></div>
+                    <input type="checkbox" id="chkmdg" name="mdg">
+                </div>
+            </div>
+            <lib-enter-mdg class="col-md-9 card" (InformacionTexto)="InformacionLateral($event,'mdg')"
+                (formGroupEmit)="assigFormToStep($event,2)" [dataVisas]="dataVisas" (stepperEmit)="clickNext($event)">
+            </lib-enter-mdg>
+        </div>
+    </mat-step>
+    <mat-step [stepControl]="thirdFormGroup">
+        <div class="row">
+            <div class="col-sm-12  col-md-3 card">
+                <div class="card-body">
+                    <div style="text-align: center;">
+                        <img class="slidecaption" style="max-width:50%" src="../../../../../assets/images/Endpoint.png"
+                            alt="">
+                    </div>
+                    <div style="text-align: justify;" [innerHTML]="informacionGeneralVisa"></div>
+                </div>
+            </div>
+            <lib-formulario-de-solicitud class="col-sm-12  col-md-9 card"
+                (InformacionTexto)="InformacionLateral($event,'general')" (formGroupEmit)="assigFormToStep($event,3)"
+                (stepperEmit)="clickNext($event)"></lib-formulario-de-solicitud>
+        </div>
+    </mat-step>
+    <mat-step [stepControl]="fourFormGroup">
+        <div class="row">
+            <div class="col-sm-12  col-md-3 card">
+                <div class="card-body">
+                    <div style="text-align: center;">
+                        <img class="slidecaption" style="max-width:50%" src="../../../../../assets/images/Endpoint.png"
+                            alt="">
+                    </div>
+                    <div style="text-align: justify;" [innerHTML]="informacionAdjuntos"></div>
+                </div>
+            </div>
+            <lib-subir-archivo class="col-sm-12  col-md-9 card"
+                (InformacionTexto)="InformacionLateral($event,'adjuntos')" (formGroupEmit)="assigFormToStep($event,4)"
+                [fomularioFull]="formularioFull" [requisitosDocumentosaSubir]="requisitosDocumentosaSubir"
+                [inicioMostrarFormulario]="inicioMostrarFormularioSubirArchivo">
+            </lib-subir-archivo>
+        </div>
+    </mat-step>
+</mat-horizontal-stepper>
+<br>

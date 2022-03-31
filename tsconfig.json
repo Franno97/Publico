@@ -1,0 +1,70 @@
+/* To learn more about this file see: https://angular.io/config/tsconfig. */
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "baseUrl": "./",
+    "outDir": "./dist/out-tsc",
+    "sourceMap": true,
+    "declaration": false,
+    "downlevelIteration": true,
+    "experimentalDecorators": true,
+    "moduleResolution": "node",
+    "importHelpers": true,
+    "target": "es2017",
+    "module": "es2020",
+    "lib": [
+      "es2018",
+      "dom"
+    ],
+    "paths": {
+      "@mre/citas": [
+        "projects/mre/citas/src/public-api.ts",
+      ],
+      "@mre/ciudadano": [
+        "dist/mre/ciudadano/mre-ciudadano",
+        "dist/mre/ciudadano"
+      ],
+      "@mre/comunes": [
+        "projects/mre/comunes/src/public-api.ts"
+      ],
+      "@mre/registro-persona": [
+        "projects/mre/registro-persona/src/public-api.ts"
+      ],
+      "@mre/registro-persona/config": [
+        "projects/mre/registro-persona/config/src/public-api.ts"
+      ],
+      "@mre/registro-persona/proxy/*": [
+        "projects/mre/registro-persona/src/lib/proxy/*"
+      ],
+      "@mre/unidad-administrativa": [
+        "projects/mre/unidad-administrativa/src/public-api.ts",
+      ],
+      "@mre/unidad-administrativa/proxy/*": [
+        "projects/mre/unidad-administrativa/src/lib/proxy/*"
+      ],
+      "@mre/visas-ecuador": [
+        "projects/mre/visas-ecuador/src/public-api.ts"
+      ],
+      "@mre/solicitud-servicio-consular": [
+        "projects/mre/solicitud-servicio-consular/src/public-api.ts"
+      ],
+   
+      "@mre/consultor": [
+        "projects/mre/consultor/src/public-api.ts"
+      ],
+      "@mre/funcionario": [
+        "projects/mre/funcionario/src/public-api.ts"
+      ],
+  
+      "@proxy": [
+        "src/app/proxy/index.ts"
+      ],
+      "@proxy/*": [
+        "src/app/proxy/*"
+      ]
+    }
+  },
+  "angularCompilerOptions": {
+    "enableI18nLegacyMessageIdFormat": false
+  }
+}

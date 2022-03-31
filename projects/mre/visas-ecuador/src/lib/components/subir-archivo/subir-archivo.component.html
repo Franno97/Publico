@@ -1,0 +1,72 @@
+<ngb-accordion #acc="ngbAccordion" [closeOthers]="true" activeIds="0" *ngIf="isLoaded"
+    (panelChange)="beforeChange($event)">
+    <ngb-panel [id]="i" *ngFor="let item of requisitosDocumentosaSubir, index as i">
+        <ng-template ngbPanelHeader let-opened="opened">
+            <div class="d-flex align-items-center justify-content-between" [ngClass]="classLoaded[i]">
+                <button ngbPanelToggle class="btn btn-link p-0">{{item.TipoDocumento}}</button>
+                <i class="{{item.IconoNombre}}"></i>
+            </div>
+        </ng-template>
+        <ng-template ngbPanelContent>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="file-upload card">
+                        <button class="btn btn-primary btn-sm" type="button" (click)="InpuButton.click()"
+                            color="primary">Cargar Documento</button>
+                        <div class="image-upload-wrap">
+                            <input class="file-upload-input" #InpuButton type='file' accept="application/pdf,image/*"
+                                (change)="selectFile($event, item.TipoDocumental)">
+                            <div class=" file-drag-area" *ngIf="item.IsVisible">
+                                <h4>Arrastrar y soltar documento</h4>
+                                <div>
+                                    <img class="uploaded-image" alt="Suba el documento" [id]="'imgLoad'+i" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div *ngIf="!item.IsVisible">
+                            <ngx-extended-pdf-viewer [id]="'VisorPdf_'+i" base64Src="{{item.VisorPdf}}" height="300px"
+                                [useBrowserLocale]="true" [showHandToolButton]="true">
+                            </ngx-extended-pdf-viewer>
+                            <!--"/assets/images/clases.pdf"-->
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card">
+                        <img class="img-fluid" style="max-width:100%"
+                            src="../../../../../assets/images/{{item.ImagenNombre}}" alt="">
+                    </div>
+                </div>
+            </div>
+            <br>
+
+            <button type="button" style="float:left" class="btn btn-primary btn-sm" (click)="prevStep(i)"
+                *ngIf="i != 0">
+                <i class="fas fa-angle-double-left"></i>
+                Anterior
+            </button>
+            <button type="button" style="float:right" class="btn btn-primary btn-sm" (click)="toggle(i)"
+                *ngIf="(i !=  requisitosDocumentosaSubir.length-1)">
+
+                Siguiente
+                <i class="fas fa-angle-double-right"></i>
+            </button>
+            <br>
+        </ng-template>
+    </ngb-panel>
+
+</ngb-accordion>
+
+<br>
+<form [formGroup]="formData">
+    <label class="form-label">Observación:</label>
+    <textarea class="form-control" rows="4" formControlName="observacion" placeholder=""></textarea>
+    <br><br>
+    <div class="form-group">
+        <div class="row justify-content-end">
+            <button class="botonAlign" (click)="guardar()" mat-raised-button color="primary"
+                type="submit">Finalizar</button>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,82 @@
+<div class="card">
+    <div class="card-header">
+        <h2>
+            {{'Cita::Cita:Reagendar' | abpLocalization}}
+        </h2>
+    </div>
+
+    <div class="card-body">
+
+        <div *ngIf="mostrarFormulario">
+
+            <div class="row">
+                <div class="col-md-6 text-right">
+                    <label>{{'Cita::GenerarCita:Servicio' | abpLocalization}}:</label>
+                </div>
+                <div class="col-md-6 text-left">{{cita.servicioNombre}}</div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 text-right">
+                    <label>{{'Cita::GenerarCita:UnidadAdministrativa' | abpLocalization}}:</label>
+                </div>
+                <div class="col-md-6 text-left">{{cita.unidadAdministrativaNombre}}</div>
+            </div>
+
+            <form [formGroup]="formulario" (ngSubmit)="guardar()">
+
+                <div class="row">
+                    <div class="col-md-6 text-center">
+                        <ngb-datepicker #d [maxDate]="maxDate" [minDate]="minDate" formControlName="fecha"
+                            (ngModelChange)="cambioFechaHorario()">
+                        </ngb-datepicker>
+                    </div>
+    
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                <h3>{{'Cita::GenerarCita:HorarioEtiqueta' | abpLocalization}}</h3>
+                            </div>
+    
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                <div style="height: 200px; overflow-y: scroll;">
+                                    <div class="btn-group btn-group-toggle btn-group-vertical" ngbRadioGroup
+                                        name="radioBasic" formControlName="horario">
+                                        <label ngbButtonLabel class="btn btn-light" *ngFor="let horario of listaHorarios">
+                                            <input ngbButton type="radio" [value]="horario">{{horario}}
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+    
+    
+                        </div>
+    
+                    </div>
+    
+                </div>
+    
+                <div class="row">
+                    <div class="col-md-12 text-right">
+                        <button type="submit" [disabled]="formulario.invalid || procesando" class="btn btn-primary btn-lg">
+                            <i class="fa fa-spinner fa-spin" *ngIf="procesando"></i>
+                            <i class="fa fa-check-circle" aria-hidden="true" *ngIf="!procesando"></i> {{
+                            'Cita::GenerarCita:BotonContinuar' | abpLocalization
+                            }}
+                        </button>
+                    </div>
+                </div>
+    
+    
+            </form>
+
+        </div>
+
+        
+
+
+    </div>
+
+</div>

@@ -1,0 +1,15 @@
+<div [formGroup]="formControlData" class="marginNegative">
+    <div class="form-group">
+        <div class="">
+            <label class="form-label">{{placeHolder}}:</label>
+            <div class="input-group input-group-sm">
+                <input class="form-control" aria-label="Amount (to the nearest dollar)" [formControlName]="formCtrlName" [type]="typeInput">
+                <span class="input-group-text text-info" id="button-addon2" *ngIf="contentInfo" [autoClose]="true" [ngbPopover]="popContent"><i class="fas fa-info-circle" ></i></span>
+
+                <ng-template #popContent>
+                    <lib-content-info [InfoContext]="InfoContext"></lib-content-info>
+                </ng-template>
+            </div>
+        </div>
+    </div>
+</div>

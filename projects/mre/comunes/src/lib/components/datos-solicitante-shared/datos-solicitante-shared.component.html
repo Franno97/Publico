@@ -1,0 +1,27 @@
+<div class="card-body">
+    <!-- <h3 class="card-title">Datos Solicitante</h3> -->
+    <a (click)=toggleDatosSolicitante()>
+        <h3 class="card-title">Datos Solicitante&nbsp;<i class="fas fa-caret-down"
+                *ngIf="!mostrarDatosSolicitante"></i><i class="fas fa-caret-right " *ngIf="mostrarDatosSolicitante"></i>
+        </h3>
+    </a>
+
+    <form [formGroup]="formData" *ngIf="mostrarDatosSolicitante">
+        <div class="row">
+            <div class="col-md-6 col-sm-12">
+                <lib-input-field *ngFor="let item of arrField1" [formControlData]="formData"
+                    placeHolder={{item.placeHolder}} typeInput={{item.typeInput}} icon={{item.icon}}
+                    [contentInfo]="item.contentInfo" [formCtrlName]='item.formCtrolName' [disabledx]='item.disabledx'>
+                </lib-input-field>
+            </div>
+            <div class="col-md-6 col-sm-12">
+                <label class="form-label">Dirección:</label>
+                <textarea class="form-control" rows="2" placeholder=""
+                    formControlName='direccionSolicitante'></textarea>
+                <lib-input-field *ngFor="let item of arrField2" [formControlData]="formData"
+                    placeHolder={{item.placeHolder}} typeInput={{item.typeInput}} icon={{item.icon}}
+                    [contentInfo]="item.contentInfo" [formCtrlName]='item.formCtrolName'></lib-input-field>
+            </div>
+        </div>
+    </form>
+</div>

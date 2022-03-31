@@ -1,0 +1,16 @@
+<div class="card-body">
+    <form [formGroup]="formData">
+        <div class="form-group">
+            <hr>
+            <h3 class="card-title">Documentos de Identificación Beneficiario</h3>
+            <div class="row justify-content-end">
+                <div class="col-md-6 col-sm-12">
+                    <lib-input-field *ngFor="let item of arrField3" [formControlData]="formData" placeHolder={{item.placeHolder}} typeInput={{item.typeInput}} icon={{item.icon}} [contentInfo]="item.contentInfo" [formCtrlName]='item.formCtrolName'></lib-input-field>
+                </div>
+                <div class="col col-md-6 col-sm-12">
+                    <lib-input-field *ngFor="let item of arrField4" [formControlData]="formData" placeHolder={{item.placeHolder}} typeInput={{item.typeInput}} icon={{item.icon}} [contentInfo]="item.contentInfo" [formCtrlName]='item.formCtrolName'></lib-input-field>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

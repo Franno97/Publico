@@ -1,0 +1,42 @@
+<div *ngIf="bandera1">
+    <lib-form-template [formTitle]="formTitle">
+
+        <div class="card-body" form-content>
+            <form [formGroup]="ServicioConsularFormulario" (ngSubmit)="onSubmit()">
+                <!-- <form> -->
+                <div class="row">
+                    <div class="form-group ">
+                        <div class="col-sm-12 col-md-12 col-lg-12" *ngFor="let item of arrSelect, index as i">
+                            <label class="form-label">{{item.selectName}}</label>
+                            <div class="input-group input-group-sm">
+                                <select class="form-control" formControlName="{{item.control}}" name="{{item.name}}"
+                                    (change)="asignarValor($event,i+1)" [(ngModel)]="item.name">
+                                    <option [ngValue]="null" disabled>Selecciona {{item.selectName}}...</option>
+                                    <option *ngFor="let opt of item.arrOptionSelect, index as j" [ngValue]="opt.id">{{
+                                        opt.name }}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="form-group row justify-content-end ">
+                    <div class="d-flex justify-content-end ">
+                        <!-- <button mat-raised-button color="primary " [disabled]='formData.invalid' type="submit ">Continuar</button> -->
+                        <button class="btn btn-primary" type="submit"
+                            [disabled]='ServicioConsularFormulario.invalid || procesando'>Continuar</button>
+                    </div>
+
+                </div>
+
+
+            </form>
+        </div>
+    </lib-form-template>
+</div>
+<div *ngIf="bandera2">
+    <lib-visas-ecuador></lib-visas-ecuador>
+</div>
+<br>
+<!--Eliminar esto de aqui q son los tramites pendientes y poner en la nueva pagina q se hara-->
+<lib-ciudadano></lib-ciudadano>

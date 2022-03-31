@@ -1,0 +1,89 @@
+<lib-form-template [formTitle]="formTitle" hasButtonClose=true>
+    <div class="col" form-content>
+        <br />
+        <form [formGroup]="formData" (ngSubmit)="onSubmit()">
+            <mat-horizontal-stepper #stepper class="container">
+                <mat-step>
+                    <div class="row">
+                        <div class="col-3">
+                            <div class="card-body">
+                                <div style="text-align: center;">
+                                    <img class="slidecaption" style="max-width:50%" src="../../../../../assets/images/Endpoint.png" alt="">
+                                </div>
+                                <br>
+                                <div style="text-align: justify;">
+                                    {{observacionesDatosPersonales}}
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-9">
+                            <lib-datos-personales [formData]="formData" [formDataSolicitante]="formDataSolicitante"></lib-datos-personales>
+
+                        </div>
+                        <button class="btn btn-primary" (click)="stepper.next()" type="button">Siguiente</button>
+                    </div>
+                </mat-step>
+                <mat-step>
+                    <div class="row">
+                        <div class="col-3">
+                            <div class="card-body">
+                                <div style="text-align: center;">
+                                    <img class="slidecaption" style="max-width:50%" src="../../../../../assets/images/Endpoint.png" alt="">
+                                </div>
+                                <br>
+                                <div style="text-align: justify;">
+                                    {{observacionesDomicilio}}
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-9">
+                            <lib-domicilio-pasaporte-visa [formData]="formData" [showAlertDatosVisa]=true></lib-domicilio-pasaporte-visa>
+                        </div>
+                        <button class="btn btn-primary" (click)="stepper.previous()" type="button">Anterior</button>
+                        <button class="btn btn-primary" (click)="stepper.next()" type="button">Siguiente</button>
+
+                    </div>
+                </mat-step>
+                <mat-step>
+                    <div class="row">
+                        <div class="col-3">
+                            <div class="card-body">
+                                <div style="text-align: center;">
+                                    <img class="slidecaption" style="max-width:50%" src="../../../../../assets/images/Endpoint.png" alt="">
+                                </div>
+                                <br>
+                                <div style="text-align: justify;">
+                                    {{observacionesDocumentos}}
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-9">
+                            <lib-subir-archivo (InformacionTexto)="InformacionTexto($event)" (FileDocument)="FileDocument($event)" [Documentos]="documentos"></lib-subir-archivo>
+
+                        </div>
+                        <button class="btn btn-primary" (click)="stepper.previous()" type="button">Anterior</button>
+                        <button class="btn btn-primary" (click)="stepper.next()" type="button" *ngIf="tabDataSourceMultas.length">Siguiente</button>
+                        <button class="btn btn-primary" [disabled]="!formData.valid" type="submit" *ngIf="!tabDataSourceMultas.length">Finalizar</button>
+
+                    </div>
+                </mat-step>
+                <mat-step *ngIf="tabDataSourceMultas.length">
+                    <div class="row">
+                        <div class="col-3">
+                            {{observacionesDocumentos}}
+                        </div>
+                        <div class="col-9">
+                            <lib-multas [tabDataSource]='tabDataSourceMultas'></lib-multas>
+
+                        </div>
+                        <button class="btn btn-primary" (click)="stepper.previous()" type="button">Anterior</button>
+                        <button class="btn btn-primary" [disabled]="!formData.valid" type="submit">Finalizar</button>
+                    </div>
+                </mat-step>
+            </mat-horizontal-stepper>
+        </form>
+    </div>
+</lib-form-template>

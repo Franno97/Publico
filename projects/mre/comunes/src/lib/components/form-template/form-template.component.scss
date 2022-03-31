@@ -1,0 +1,43 @@
+.bkGround {
+    background-repeat: no-repeat;
+    height: auto;
+}
+.botonAlign{
+    margin-right: 15px;
+}
+.minWidth{
+  min-width: 360px;
+  padding: 0px;
+ }
+ .st1 {
+    height: 3px;
+    background-color: rgb(196, 196, 84);
+}
+
+.st2 {
+    height: 3px;
+    background-color: blue;
+}
+
+.st3 {
+    height: 3px;
+    background-color: red;
+}
+h3 {
+    margin-top: 10px;
+    text-transform: uppercase;
+    color: white;
+    font-size: 14px;
+    text-decoration: none;
+    font-family: 'Gotham', sans-serif;
+}
+.botonAlign{
+    margin-right: 15px;
+}
+.botonClose{
+    color: red;
+    font-size: 20px;
+    cursor: pointer;
+    margin-bottom: 10px;
+
+}

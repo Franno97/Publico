@@ -1,0 +1,49 @@
+<div class="card-body">
+    <form [formGroup]="formData">
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-2 col-sm-12">
+                    <img class="img-fluid" src="../../../../../assets/images/perfil.jpg" alt="">
+                </div>
+                <div class="col-md-5 col-sm-12">
+                    <lib-input-field *ngFor="let item of arrField1" [formControlData]="formData" placeHolder={{item.placeHolder}} typeInput={{item.typeInput}} icon={{item.icon}} [contentInfo]="item.contentInfo" [formCtrlName]='item.formCtrolName'></lib-input-field>
+                   <div class="row" *ngIf="showConaDis">
+                       <div class="col-1">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                            <label class="form-check-label" for="flexCheckDefault">
+                               
+                            </label>
+                          </div>
+                       </div>
+                       <div class="col-11">
+                        <lib-input-field [formControlData]="formData" placeHolder="Nro. CONADIS" typeInput="text" formCtrlName='numberMDG' icon="fas fa-user-circle"></lib-input-field>
+                       </div>
+                   </div>
+                </div>
+                <div class="col-md-5 col-sm-12">
+                    <lib-input-field [formControlData]="formData" placeHolder="Segundo Apellido" typeInput="text" formCtrlName='numberMDG' icon="fas fa-user-circle"></lib-input-field>
+                    <div class="row">
+                        <div class="col-6">
+                            <lib-input-field [formControlData]="formData" placeHolder="Fecha de Nacimiento" typeInput="date" formCtrlName='numberMDG' icon="fas fa-user-circle"></lib-input-field>
+                        </div>
+                        <div class="col-6">
+                            <lib-input-field [formControlData]="formData" placeHolder="Eadad" typeInput="number" formCtrlName='numberMDG' icon="fas fa-user-circle"></lib-input-field>
+                        </div>
+                    </div>
+                    <lib-input-field *ngFor="let item of arrField2" [formControlData]="formData" placeHolder={{item.placeHolder}} typeInput={{item.typeInput}} icon={{item.icon}} [contentInfo]="item.contentInfo" [formCtrlName]='item.formCtrolName'></lib-input-field>
+                    <lib-input-field [formControlData]="formData" placeHolder="% discapacidad" typeInput="number" formCtrlName='numberMDG' icon="fas fa-user-circle"  *ngIf="showConaDis"></lib-input-field>
+                </div>
+            </div>
+        </div>
+    </form>
+    <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs">
+        <li [ngbNavItem]="1">
+          <a ngbNavLink>{{titleTab}}</a>
+          <ng-template ngbNavContent>
+            <ng-content select="[formDatosComunTab]"></ng-content>
+          </ng-template>
+        </li>
+      </ul>
+      <div [ngbNavOutlet]="nav" class="mt-2"></div>
+</div>

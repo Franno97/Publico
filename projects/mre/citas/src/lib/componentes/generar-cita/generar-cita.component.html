@@ -1,0 +1,216 @@
+<div class="card">
+    <div class="card-header">
+        <h2>
+            {{'Cita::GenerarCita:HeaderLabel' | abpLocalization}}
+        </h2>
+    </div>
+
+    <div class="card-body">
+
+        <div *ngIf="mostrarFormularioInicial">
+
+            <form [formGroup]="formularioInicial" (ngSubmit)="continuarFormularioInicial()">
+
+                <div class="form-group row">
+                    <label class="col-md-4 col-form-label col-form-label-md text-right" for="service-type">{{'Cita::GenerarCita:TipoDeServicio' | abpLocalization
+                        }}<small class="text-danger">*</small>:</label>
+
+                    <div class="col-md-8">
+                        <select class="form-control form-control-md" formControlName="tipoServicioId" (change)="cambioTipoServicio()">
+                            <option [ngValue]="null">{{'::SelectValue' | abpLocalization }}</option>
+                            <option [ngValue]="type.id" *ngFor="let type of listaTipoServicio"> {{ type.nombre }}
+                            </option>
+                        </select>
+                        <div *ngIf="formularioInicial.controls['tipoServicioId'].invalid && (formularioInicial.controls['tipoServicioId'].dirty || formularioInicial.controls['tipoServicioId'].touched || submitted)">
+                            <small class="text-danger" *ngIf="formularioInicial.controls['tipoServicioId'].errors?.required">
+                                {{'::RulesValidationMessage:Required' | abpLocalization }}
+                            </small>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-md-4 col-form-label col-form-label-md text-right" for="service-type">{{'Cita::GenerarCita:Servicio' | abpLocalization
+                        }}<small class="text-danger">*</small>:</label>
+
+                    <div class="col-md-8">
+                        <select class="form-control form-control-md" formControlName="servicioId" (change)="cambioServicio()">
+                            <option [ngValue]="null">{{'::SelectValue' | abpLocalization }}</option>
+                            <option [ngValue]="type.id" *ngFor="let type of listaServicios"> {{ type.nombre }}
+                            </option>
+                        </select>
+                        <div *ngIf="formularioInicial.controls['servicioId'].invalid && (formularioInicial.controls['servicioId'].dirty || formularioInicial.controls['servicioId'].touched || submitted)">
+                            <small class="text-danger" *ngIf="formularioInicial.controls['servicioId'].errors?.required">
+                                {{'::RulesValidationMessage:Required' | abpLocalization }}
+                            </small>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-md-4 col-form-label col-form-label-md text-right" for="service-type">{{'Cita::GenerarCita:UnidadAdministrativa' | abpLocalization
+                        }}<small class="text-danger">*</small>:</label>
+
+                    <div class="col-md-8">
+                        <select class="form-control form-control-md" formControlName="unidadAdministrativaId">
+                            <option [ngValue]="null">{{'::SelectValue' | abpLocalization }}</option>
+                            <option [ngValue]="type.id" *ngFor="let type of listaUnidadesAdministrativas"> {{
+                                type.nombre }}
+                            </option>
+                        </select>
+                        <div *ngIf="formularioInicial.controls['unidadAdministrativaId'].invalid && (formularioInicial.controls['unidadAdministrativaId'].dirty || formularioInicial.controls['unidadAdministrativaId'].touched || submitted)">
+                            <small class="text-danger" *ngIf="formularioInicial.controls['unidadAdministrativaId'].errors?.required">
+                                {{'::RulesValidationMessage:Required' | abpLocalization }}
+                            </small>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div *ngIf="showPreCheckError" class="row">
+                    <div class="col-md-4"></div>
+                    <div class="col-md-8">
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <p class="font-weight-bold">{{preCheckMensajeError}}</p>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 text-left">
+                        <button type="button" class="btn btn-secondary btn-md" (click)="cancelar()">
+                            <i class="fas fa-window-close"></i>
+                            {{ '::Cancel' | abpLocalization }}</button>
+                    </div>
+                    <div class="col-md-6 text-right">
+                        <button type="submit" [disabled]="formularioInicial.invalid || procesando" class="btn btn-primary btn-md">
+                            <i class="fa fa-spinner fa-spin" *ngIf="procesando"></i>
+                            <i class="fa fa-check-circle" aria-hidden="true" *ngIf="!procesando"></i> 
+                            {{ 'Cita::GenerarCita:BotonContinuar' | abpLocalization }}
+                        </button>
+                    </div>
+                </div>
+
+
+            </form>
+
+        </div>
+
+        <div *ngIf="mostrarFormularioDisponibilidad">
+
+            <form [formGroup]="formularioDisponibilidad" (ngSubmit)="continuarFormularioValidacion()">
+
+                <div class="row">
+                    <div class="col-md-6 text-center">
+                        <ngb-datepicker #d [maxDate]="maxDate" [minDate]="minDate" formControlName="fecha" (ngModelChange)="cambioFechaHorario()">
+                        </ngb-datepicker>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                <h3>{{'Cita::GenerarCita:HorarioEtiqueta' | abpLocalization}}</h3>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                <div style="height: 200px; overflow-y: scroll;">
+                                    <div class="btn-group btn-group-toggle btn-group-vertical" ngbRadioGroup name="radioBasic" formControlName="horario">
+                                        <label ngbButtonLabel class="btn btn-light" *ngFor="let horario of listaHorarios">
+                                            <input ngbButton type="radio" [value]="horario">{{horario}}
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div *ngIf="mostrarMensajeErrorCrear" class="row">
+                    <div class="col-md-12">
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <p class="font-weight-bold">{{mensajeErrorCrear}}</p>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 text-left">
+                        <button type="button" class="btn btn-secondary btn-md" (click)="cancelar()">
+                            <i class="fas fa-window-close"></i>
+                            {{ '::Cancel' | abpLocalization }}</button>
+                    </div>
+                    <div class="col-md-6 text-right">
+                        <button type="submit" [disabled]="formularioDisponibilidad.invalid || procesando" class="btn btn-primary btn-md">
+                            <i class="fa fa-spinner fa-spin" *ngIf="procesando"></i>
+                            <i class="fa fa-check-circle" aria-hidden="true" *ngIf="!procesando"></i> 
+                            {{ 'Cita::GenerarCita:BotonContinuar' | abpLocalization }}
+                        </button>
+                    </div>
+                </div>
+
+
+            </form>
+
+
+
+        </div>
+
+        <div *ngIf="mostrarPantallaFinal">
+            <h2>{{'Cita::GenerarCita:CitaAgendadaTexto' | abpLocalization}}</h2>
+            <p class="h3">{{'Cita::GenerarCita:TextoInicioPantallaFinal' | abpLocalization}}</p>
+            <div class="row">
+                <div class="col-md-6 text-right">
+                    <label>{{'Cita::GenerarCita:Servicio' | abpLocalization}}:</label>
+                </div>
+                <div class="col-md-6 text-left">{{servicioNombre}}</div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 text-right">
+                    <label>{{'Cita::GenerarCita:UnidadAdministrativa' | abpLocalization}}:</label>
+                </div>
+                <div class="col-md-6 text-left">{{unidadAdminitrativaNombre}}</div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 text-right">
+                    <label>{{'Cita::GenerarCita:FechaCitaTexto' | abpLocalization}}:</label>
+                </div>
+                <div class="col-md-6 text-left">{{fechaSeleccionada}}</div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 text-right">
+                    <label>{{'Cita::GenerarCita:HoraCitaTexto' | abpLocalization}}:</label>
+                </div>
+                <div class="col-md-6 text-left">{{horaSeleccionada}}</div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <button type="button" class="btn btn-primary btn-md" (click)="inicializarFormulario()">
+                        <i class="fa fa-check-circle" aria-hidden="true"></i> {{'Cita::GenerarCita:BotonAceptar' |
+                        abpLocalization}}
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+</div>

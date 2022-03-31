@@ -1,0 +1,6 @@
+<div class="col-md-12 AAAA">
+    <i class="fas fa-home "></i>
+    <div class="DivMenuDynamic" *ngFor="let item of headerSteps,index as i">
+        <a class="LinkMenu" role="button" (click)="clickLink(i)" *ngIf="item.status">* {{item.link}}</a>
+    </div>
+</div>

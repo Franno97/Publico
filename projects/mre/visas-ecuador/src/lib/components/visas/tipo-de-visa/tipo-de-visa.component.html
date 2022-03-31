@@ -1,0 +1,39 @@
+<div class="card-body">
+    <form [formGroup]="formData" (ngSubmit)="onSubmit()">
+        <div class="form-check StyleRow row mb-3" *ngFor="let item of ArrData; index as i">
+            <div class="col-1">
+                <input class="btn-check" type="radio" [name]="item.name" [id]="item.name + i" (change)="actualizarTipoVisa(item.tipoVisa)" [checked]="i === 0" autocomplete="off" />
+            </div>
+
+            <div class="col-10">
+                <div class="btn btn-outline-info text-left">
+                    <label [for]="item.name + i">{{ item.label }}
+
+            <br />
+            <span class="StyleSpan" [ngStyle]="{ color: item.color }">{{ item.descripcion }}</span>
+          </label>
+                </div>
+            </div>
+
+            <!--  <div class="col-md-12">
+                <input class="btn-check" type="radio" [name]="item.name" [id]="item.name+i" (change)="actualizarTipoVisa(item.tipoVisa)" [checked]="i === 0" autocomplete="off">
+                <div class="btn btn-outline-info" style="text-align: left;">
+                   <label  [for]="item.name+i">{{item.label}}</label>
+                   <br>
+                   <span class="StyleSpan" [ngStyle]="{'color': item.color}">{{item.descripcion}}</span>
+                </div>
+            </div> -->
+            <!-- <div class="col-md-9 .d-none .d-sm-block">
+                <span class="StyleSpan" [ngStyle]="{'color': item.color}">{{item.descripcion}}</span>
+            </div> -->
+        </div>
+
+        <div class="form-group">
+            <div class="row justify-content-end">
+                <div class="d-flex justify-content-end">
+                    <button class="btn btn-primary btn-sm" color="primary" type="submit">Continuar</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

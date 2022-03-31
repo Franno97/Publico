@@ -1,0 +1,35 @@
+<container-element [ngSwitch]="templateToShow">
+    <form [formGroup]="formData" (ngSubmit)="onSubmit()">
+        <div *ngSwitchCase="'lib-datos-beneficiario2'">
+            <lib-domicilio-pasaporte-visa [formData]="formData" [showAlertDatosVisa]=true>
+            </lib-domicilio-pasaporte-visa>
+            <div class="form-group">
+
+                <div class="row justify-content-between">
+                    <div class="col-6">
+                        <button class="botonAlign btn btn-primary btn-sm" type="button" color="primary"
+                            (click)="setValueToSwitch('lib-datos-personales')">Atras</button>
+                    </div>
+                    <div class="col-6" style="text-align: right;">
+                        <button class="align-items-center btn btn-primary btn-sm" type="submit" color="primary"
+                            [disabled]="!formData.valid">Continuar</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </form>
+    <form [formGroup]="formData" (ngSubmit)="setValueToSwitch('lib-datos-beneficiario2')">
+        <ng-container *ngSwitchDefault>
+            <lib-datos-personales [formData]="formData" [formDataSolicitante]="formDataSolicitante">
+            </lib-datos-personales>
+            <br>
+            <div class="form-group">
+                <div class="row justify-content-end">
+                    <button class="botonAlign btn btn-primary btn-sm" color="primary" [disabled]="!formData.valid"
+                        type="submit">Siguiente</button>
+                </div>
+            </div>
+        </ng-container>
+    </form>
+</container-element>

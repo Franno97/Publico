@@ -1,0 +1,25 @@
+<lib-form-template [formTitle]="formTitle" hasButtonClose=true>
+  <div class="col" form-content>
+    <br />
+    <lib-datos-solicitante-shared [formData]="formData" *ngIf="visaTitular"></lib-datos-solicitante-shared>
+    <lib-datos-beneficiario-shared [formData]="formData" [hasConadis]="true" [visaTitular]="visaTitular">
+    </lib-datos-beneficiario-shared>
+    <hr>
+    <div class="col-12">
+      <div class="row">
+        <div class="col-12">
+          <lib-reconocimiento-facial-facetec [datos]="datosReconocimientoFacial"
+            (resultadoProcesoComparar)="resultadoProcesoComparar($event)"></lib-reconocimiento-facial-facetec>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="row justify-content-end">
+          <div class="form-group">
+            <button class="btn btn-primary botonAlign"
+              (click)="onSubmit()">Guardar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</lib-form-template>

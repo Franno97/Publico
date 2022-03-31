@@ -1,0 +1,845 @@
+<div class="card">
+    <div class="card-header  ">
+        <h4 class="card-title">{{'PersonRegistration::PersonRegistration:Title' | abpLocalization}}</h4>
+        <h6 class="card-subtitle text-muted">{{stageMessage}}</h6>
+    </div>
+
+    <div class="card-body">
+
+
+        <div *ngIf="showPreCheckError" class="row">
+            <div class="col-md-6">
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <p class="font-weight-bold">{{errorTextPreCheck}}</p>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+
+
+        <ng-container *ngIf="showFirstSection">
+            <!-- Contenedor-->
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="col-md-12">
+                        <div class="text-center">
+                            <img [src]="imagePersonMdgUrl" alt="" width="120" height="122">
+                        </div>
+                        <p class="mdg-informacion-text">
+                            {{'PersonRegistration::PersonRegistrationPrecheck:RegisterNumberAdvice' | abpLocalization}}
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-md-8">
+                    <form *ngIf="form" [formGroup]="form" (ngSubmit)="validatePrecheck()">
+                        <div class="row">
+
+                            <div class="col-md-11">
+                                <div class="form-group row">
+                                    <label class="col-sm-6 col-form-label col-form-label-sm" for="registerNumber-id">{{'PersonRegistration::PersonRegistration:PrecheckRegisterNumber'
+                                        | abpLocalization
+                                        }}:<small class="text-danger"> * </small></label>
+
+                                    <div class="col-sm-6">
+                                        <input type="text" id="registerNumber-id" class="form-control form-control-sm" formControlName="registerNumber" autofocus maxlength="10" />
+                                        <div *ngIf="form.controls['registerNumber'].invalid && (form.controls['registerNumber'].dirty || form.controls['registerNumber'].touched )">
+
+                                            <small class="text-danger" *ngIf="form.controls['registerNumber'].errors?.required">
+                                                {{'::RulesValidationMessage:Required' | abpLocalization }}
+                                            </small>
+
+                                            <small class="text-danger" *ngIf="form.controls['registerNumber'].errors?.maxlength">
+                                                {{'::RulesValidationMessage:Maximum' |
+                                                abpLocalization:form.controls['registerNumber'].errors?.maxlength.requiredLength
+                                                }}
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-1">
+                                <i class="fas fa-info-circle fa-2x" (click)="isRegisterHelpOpen = true"></i>
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-md-11">
+                                <div class="form-group row">
+                                    <label class="col-sm-6 col-form-label col-form-label-sm" for="birthDate-id">{{'PersonRegistration::PersonRegistration:PrecheckBirthDate'
+                                        | abpLocalization
+                                        }}:<small class="text-danger"> * </small></label>
+
+                                    <div class="col-sm-6">
+                                        <input #datepickerstart="ngbDatepicker" class="form-control form-control-sm" formControlName="birthDate" [maxDate]="maxDate" [minDate]="minDate" ngbDatepicker (click)="datepickerstart.toggle()" placeholder="dd/mm/aaaa" />
+                                        <div *ngIf="form.controls['birthDate'].invalid && (form.controls['birthDate'].dirty || form.controls['birthDate'].touched )">
+
+                                            <small class="text-danger" *ngIf="form.controls['birthDate'].errors?.required">
+                                                {{'::RulesValidationMessage:Required' | abpLocalization }}.
+                                            </small>
+
+                                            <small class="text-danger" *ngIf="form.controls['birthDate'].invalid">
+                                                {{'PersonRegistration::PersonRegistration:PrecheckBirthDateInvalid' | abpLocalization }}
+                                            </small>
+
+
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-11">
+                                <div class="row justify-content-end">
+
+                                    <div class="col-sm-6">
+                                        <ng-container *ngIf="mostrarCaptcha | async">
+                                            <re-captcha formControlName="recaptchaReactive"></re-captcha>
+                                        </ng-container>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-11">
+                                <div class="row">
+                                    <div class="col-sm-12 text-right mt-3">
+                                        <button type="submit" [disabled]="form.invalid || procesando" class="btn btn-primary btn-md">
+                                            <i class="fa fa-spinner fa-spin" *ngIf="procesando"></i>
+                                            <i class="fa fa-check-circle" aria-hidden="true" *ngIf="!procesando"></i> {{
+                                            'PersonRegistration::PersonRegistration:PrecheckButtonValidate' |
+                                            abpLocalization
+                                            }}
+                                        </button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </ng-container>
+
+
+        <ng-container *ngIf="showSectionValidateCode">
+
+            <form [formGroup]="formCode" (ngSubmit)="validateCode()">
+                <div class="row">
+
+                    <div class="col-md-4">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="text-center">
+                                    <img [src]="importantImageUrl" alt="" width="80" height="89">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <p class="h3 font-weight-bold">
+                                    {{'PersonRegistration::PersonRegistration:PrecheckImportantText' | abpLocalization}}:
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <p>{{'PersonRegistration::PersonRegistration:PrecheckRightText' | abpLocalization}}:
+                                </p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="custom-checkbox custom-control">
+                                    <input class="custom-control-input" id="terms" type="checkbox" formControlName="terms">
+
+                                    <label class="custom-control-label text-primary" for="terms">
+                                        <strong>{{'PersonRegistration::PersonRegistration:PrecheckTermsText' |
+                                            abpLocalization}}</strong>
+                                    </label>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-8">
+                        <div class="form-group row">
+                            <div class="col-8">
+                                <label class="col-form-label col-form-label-sm" for="verificationCodeId">{{'PersonRegistration::PersonRegistration:LabelValidateCode'
+                                    | abpLocalization
+                                    }}:<small class="text-danger"> * </small></label>
+
+                                <input type="text" id="verificationCodeId" class="form-control form-control-sm" formControlName="verificationCode" maxlength="6" />
+                                <div *ngIf="formCode.controls['verificationCode'].invalid && (formCode.controls['verificationCode'].dirty || formCode.controls['verificationCode'].touched )">
+
+                                    <small class="text-danger" *ngIf="formCode.controls['verificationCode'].errors?.required">
+                                        {{'::RulesValidationMessage:Required' | abpLocalization }}
+                                    </small>
+
+                                    <small class="text-danger" *ngIf="formCode.controls['verificationCode'].errors?.maxlength">
+                                        {{'::RulesValidationMessage:Maximum' |
+                                        abpLocalization:formCode.controls['verificationCode'].errors?.maxlength.requiredLength
+                                        }}
+                                    </small>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-8  text-right ">
+                                <button type="submit" [disabled]="formCode.invalid || procesando" class="btn btn-primary btn-lg">
+                                    <i class="fa fa-spinner fa-spin" *ngIf="procesando"></i>
+                                    <i class="fa fa-arrow-circle-right" aria-hidden="true" *ngIf="!procesando"></i> {{
+                                    'PersonRegistration::PersonRegistration:PrecheckButtonContinue' | abpLocalization }}
+                                </button>
+                            </div>
+                        </div>
+
+
+
+
+                    </div>
+
+                </div>
+            </form>
+
+
+        </ng-container>
+
+        <ng-container *ngIf="showDataSection">
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="text-center">
+                                <img [src]="importantImageUrl" alt="" width="80" height="89">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p class="h3 font-weight-bold">
+                                {{'PersonRegistration::PersonRegistration:PersonalInformationImportantText' | abpLocalization}}:
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p>{{'PersonRegistration::PersonRegistration:PersonalInformationMessage1' | abpLocalization}}:
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p>{{'PersonRegistration::PersonRegistration:PersonalInformationMessage2' | abpLocalization}}:
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p>{{'PersonRegistration::PersonRegistration:PersonalInformationMessage3' | abpLocalization}}:
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-md-8">
+
+                    <form [formGroup]="formPersonalData" (ngSubmit)="sendRegisterPerson()">
+                        <div class="row">
+                            <div class="col-md-12">
+
+                                <div class="card">
+                                    <div class="card-body">
+
+                                        <div class="row form-group">
+                                            <!-- Datos personales -->
+                                            <h4 class="form-section col-sm-12">
+                                                <i class="fa fa-info-circle"></i> DATOS PERSONALES
+                                            </h4>
+                                            <div class="col-sm-12">
+                                                <small class="text-danger">{{'PersonRegistration::PersonRegistration:MensajeRequerido'
+                                                    | abpLocalization}}</small>
+                                                <hr>
+                                            </div>
+
+                                            <div class="form-group col-sm-5">
+                                                <div class="row">
+                                                    <label for="namesId">{{'PersonRegistration::PersonRegistration:PersonExternalInformationNames'
+                                                        | abpLocalization
+                                                        }}:</label><small class="text-danger"> * </small>
+                                                </div>
+                                                <diV class="row form-group">
+                                                    <input type="text" id="namesId" class="form-control form-control-sm" formControlName="names" />
+                                                </diV>
+
+                                                <div class="row">
+                                                    <label for="firstSurnameId">{{'PersonRegistration::PersonRegistration:PersonExternalInformationFirstSurname'
+                                                        | abpLocalization
+                                                        }}:</label><small class="text-danger"> * </small>
+                                                </div>
+                                                <div class="row form-group">
+                                                    <input type="text" id="firstSurnameId" class="form-control form-control-sm" formControlName="firstSurname" />
+                                                </div>
+
+                                                <div class="row">
+                                                    <label for="secondSurnameId">{{'PersonRegistration::PersonRegistration:PersonExternalInformationSecondSurname'
+                                                        | abpLocalization
+                                                        }}:</label><small class="text-danger"> * </small>
+                                                </div>
+                                                <div class="row form-group">
+                                                    <input type="text" id="secondSurnameId" class="form-control form-control-sm" formControlName="secondSurname" />
+                                                </div>
+
+                                            </div>
+
+                                            <div class="form-group col-sm-2"></div>
+
+                                            <div class="form-group col-sm-5 row-s">
+                                                <div class="row">
+                                                    <img class="rounded" [src]="imagePhoto">
+                                                </div>
+                                            </div>
+
+
+
+
+
+
+
+
+
+                                            <div class="form-group col-sm-5">
+                                                <div class="row">
+                                                    <label for="birthDateId">{{'PersonRegistration::PersonRegistration:PersonExternalInformationBirthDate'
+                                                        | abpLocalization
+                                                        }}:</label><small class="text-danger"> * </small>
+                                                </div>
+
+                                                <div class="row form-group">
+                                                    <input type="text" id="birthDateId" class="form-control form-control-sm" formControlName="birthDate" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-sm-2"></div>
+
+                                            <div class="form-group col-sm-5">
+                                                <div class="row">
+                                                    <label for="birthCountryId">{{'PersonRegistration::PersonRegistration:PersonExternalInformationBirthCountry'
+                                                        | abpLocalization
+                                                        }}:</label><small class="text-danger"> * </small>
+                                                </div>
+
+                                                <div class="row">
+                                                    <input type="text" id="birthCountryId" class="form-control form-control-sm" formControlName="birthCountry" />
+                                                </div>
+                                            </div>
+
+
+
+
+
+
+
+
+
+
+
+                                            <div class="form-group col-sm-5">
+                                                <div class="row">
+                                                    <label for="nationalityId">{{'PersonRegistration::PersonRegistration:PersonExternalInformationNationality'
+                                                        | abpLocalization
+                                                        }}:</label><small class="text-danger"> * </small>
+                                                </div>
+                                                <diV class="row">
+                                                    <input type="text" id="nationalityId" class="form-control form-control-sm" formControlName="nationality" />
+                                                </diV>
+                                            </div>
+                                            <div class="form-group col-sm-2"></div>
+
+                                            <div class="form-group col-sm-5">
+                                                <div class="row">
+                                                    <label for="emailId">{{'PersonRegistration::PersonRegistration:PersonExternalInformationEmail'
+                                                        | abpLocalization
+                                                        }}:</label><small class="text-danger"> * </small>
+                                                </div>
+                                                <div class="row">
+                                                    <input type="text" id="emailId" class="form-control form-control-sm" formControlName="email" />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row form-group">
+                                            <!-- Documentos de identidad -->
+                                            <h4 class="form-section col-sm-12">
+                                                <i class="fa fa-user-circle"></i> DOCUMENTOS DE IDENTIDAD
+                                            </h4>
+
+                                            <div class="form-group col-sm-5">
+                                                <div class="row">
+                                                    <label for="hasIdentityDocumentId">{{'PersonRegistration::PersonRegistration:PersonExternalInformationHasIdentityDocument'
+                                                        | abpLocalization
+                                                        }}:</label>
+                                                </div>
+                                                <diV class="row">
+                                                    <input type="text" id="hasIdentityDocumentId" class="form-control form-control-sm" formControlName="hasIdentityDocument" />
+                                                </diV>
+                                            </div>
+                                            <div class="form-group col-sm-2"></div>
+
+                                            <div class="form-group col-sm-5">
+                                                <div class="row">
+                                                    <label for="identityDocumentTypeId">{{'PersonRegistration::PersonRegistration:PersonExternalInformationIdentityDocumentType'
+                                                        | abpLocalization
+                                                        }}:</label>
+                                                </div>
+                                                <div class="row">
+                                                    <input type="text" id="identityDocumentTypeId" class="form-control form-control-sm" formControlName="identityDocumentType" />
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group col-sm-5">
+                                                <div class="row">
+                                                    <label for="identityDocumentNumberId">{{'PersonRegistration::PersonRegistration:PersonExternalInformationIdentityDocumentNumber'
+                                                        | abpLocalization
+                                                        }}:</label>
+                                                </div>
+                                                <div class="row">
+                                                    <input type="text" id="identityDocumentNumberId" class="form-control form-control-sm" formControlName="identityDocumentNumber" />
+                                                </div>
+
+                                            </div>
+                                            <div class="form-group col-sm-2"></div>
+                                            <div class="form-group col-sm-5">
+                                                <div class="row">
+                                                    <label for="identityDocumentEmissionCountryId">{{'PersonRegistration::PersonRegistration:PersonExternalInformationIdentityDocumentEmissionCountry'
+                                                        | abpLocalization
+                                                        }}:</label>
+                                                </div>
+                                                <div class="row">
+                                                    <input type="text" id="identityDocumentEmissionCountryId" class="form-control form-control-sm" formControlName="identityDocumentEmissionCountry" />
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group col-sm-5">
+                                                <div class="row">
+                                                    <label for="identityDocumentEmissionDateId">{{'PersonRegistration::PersonRegistration:PersonExternalInformationIdentityDocumentEmissionDate'
+                                                        | abpLocalization
+                                                        }}:</label>
+                                                </div>
+                                                <div class="row">
+                                                    <input type="text" id="identityDocumentEmissionDateId" class="form-control form-control-sm" formControlName="identityDocumentEmissionDate" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-sm-2"></div>
+                                            <div class="form-group col-sm-5">
+                                                <div class="row">
+                                                    <label for="identityDocumentExpirationDateId">{{'PersonRegistration::PersonRegistration:PersonExternalInformationIdentityDocumentExpirationDate'
+                                                        | abpLocalization
+                                                        }}:</label>
+                                                </div>
+                                                <div class="row">
+                                                    <input type="text" id="identityDocumentExpirationDateId" class="form-control form-control-sm" formControlName="identityDocumentExpirationDate" />
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="row form-group">
+                                            <!-- Direccion -->
+                                            <h4 class="form-section col-sm-12">
+                                                <i class="fa fa-location-arrow"></i> DIRECCION
+                                            </h4>
+
+                                            <div class="form-group col-sm-5">
+                                                <div class="row">
+                                                    <label for="genderId">{{'PersonRegistration::PersonRegistration:PersonExternalInformationGender'
+                                                        | abpLocalization
+                                                        }}:</label>
+                                                </div>
+                                                <div class="row">
+                                                    <input type="text" id="genderId" class="form-control form-control-sm" formControlName="gender" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-sm-2"></div>
+                                            <div class="form-group col-sm-5">
+                                                <div class="row">
+                                                    <label for="maritalStatusId">{{'PersonRegistration::PersonRegistration:PersonExternalInformationMaritalStatus'
+                                                        | abpLocalization
+                                                        }}:</label>
+                                                </div>
+                                                <div class="row">
+                                                    <input type="text" id="maritalStatusId" class="form-control form-control-sm" formControlName="maritalStatus" />
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group col-sm-5">
+                                                <div class="row">
+                                                    <label for="phoneNumberId">{{'PersonRegistration::PersonRegistration:PersonExternalInformationPhoneNumber'
+                                                        | abpLocalization
+                                                        }}:</label>
+                                                </div>
+                                                <div class="row">
+                                                    <input type="text" id="phoneNumberId" class="form-control form-control-sm" formControlName="phoneNumber" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-sm-2"></div>
+                                            <div class="form-group col-sm-5">
+                                                <div class="row">
+                                                    <label for="addressId">{{'PersonRegistration::PersonRegistration:PersonExternalInformationAddress'
+                                                        | abpLocalization
+                                                        }}:</label>
+                                                </div>
+                                                <div class="row">
+                                                    <input type="text" id="addressId" class="form-control form-control-sm" formControlName="address" />
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group col-sm-5">
+                                                <div class="row">
+                                                    <label for="regionId">{{'PersonRegistration::PersonRegistration:PersonExternalInformationRegion'
+                                                        | abpLocalization
+                                                        }}:</label>
+                                                </div>
+                                                <div class="row">
+                                                    <input type="text" id="regionId" class="form-control form-control-sm" formControlName="region" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-sm-2"></div>
+                                            <div class="form-group col-sm-5">
+                                                <div class="row">
+                                                    <label for="cityId">{{'PersonRegistration::PersonRegistration:PersonExternalInformationCity'
+                                                        | abpLocalization
+                                                        }}:</label>
+                                                </div>
+                                                <div class="row">
+                                                    <input type="text" id="cityId" class="form-control form-control-sm" formControlName="city" />
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group col-sm-5">
+                                                <div class="row">
+                                                    <label for="countryEntryDateId">{{'PersonRegistration::PersonRegistration:PersonExternalInformationDateAdmission'
+                                                        | abpLocalization
+                                                        }}:</label>
+                                                </div>
+                                                <div class="row">
+                                                    <input type="text" id="countryEntryDateId" class="form-control form-control-sm" formControlName="countryEntryDate" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-sm-2"></div>
+                                            <div class="form-group col-sm-5">
+                                                <div class="row">
+                                                    <label for="regularPointAccessId">{{'PersonRegistration::PersonRegistration:PersonExternalInformationIncomeFromRegularPoints'
+                                                        | abpLocalization
+                                                        }}:</label>
+                                                </div>
+                                                <div class="row">
+                                                    <input type="text" id="regularPointAccessId" class="form-control form-control-sm" formControlName="regularPointAccess" />
+                                                </div>
+                                            </div>
+
+
+                                            <div class="form-group col-sm-5">
+                                                <div class="row">
+                                                    <label for="lastResidenceCountryId">{{'PersonRegistration::PersonRegistration:PersonExternalInformationPreviousCountriesResidence'
+                                                        | abpLocalization
+                                                        }}:</label>
+                                                </div>
+                                                <div class="row">
+                                                    <input type="text" id="lastResidenceCountryId" class="form-control form-control-sm" formControlName="lastResidenceCountry" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-sm-2"></div>
+                                            <div class="form-group col-sm-5">
+                                            </div>
+
+                                        </div>
+
+                                        <div class="row form-group">
+                                            <!-- Visa -->
+
+                                            <h4 class="form-section col-sm-12">
+                                                <i class="fa fa-address-card"></i> VISA
+                                            </h4>
+
+                                            <div class="form-group col-sm-5">
+                                                <div class="row">
+                                                    <label for="visaNumberId">{{'PersonRegistration::PersonRegistration:PersonExternalInformationVisaNumber'
+                                                        | abpLocalization
+                                                        }}:</label>
+                                                </div>
+                                                <div class="row">
+                                                    <input type="text" id="visaNumberId" class="form-control form-control-sm" formControlName="visaNumber" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-sm-2"></div>
+                                            <div class="form-group col-sm-5">
+                                                <div class="row">
+                                                    <label for="visaTypeId">{{'PersonRegistration::PersonRegistration:PersonExternalInformationVisaType'
+                                                        | abpLocalization
+                                                        }}:</label>
+                                                </div>
+                                                <div class="row">
+                                                    <input type="text" id="visaTypeId" class="form-control form-control-sm" formControlName="visaType" />
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group col-sm-5">
+                                                <div class="row">
+                                                    <label for="visaEmissionDateId">{{'PersonRegistration::PersonRegistration:PersonExternalInformationVisaEmissionDate'
+                                                        | abpLocalization
+                                                        }}:</label>
+                                                </div>
+                                                <div class="row">
+                                                    <input type="text" id="visaEmissionDateId" class="form-control form-control-sm" formControlName="visaEmissionDate" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-sm-2"></div>
+                                            <div class="form-group col-sm-5">
+                                                <div class="row">
+                                                    <label for="visaExpirationDateId">{{'PersonRegistration::PersonRegistration:PersonExternalInformationVisaExpirationDate'
+                                                        | abpLocalization
+                                                        }}:</label>
+                                                </div>
+                                                <div class="row"><input type="text" id="visaExpirationDateId" class="form-control form-control-sm" formControlName="visaExpirationDate" />
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="row form-group">
+                                            <!-- Educacion y trabajo -->
+                                            <div class="col-sm-12">
+
+                                                <hr>
+                                            </div>
+
+                                            <h4 class="form-section col-sm-12">
+                                                <i class="fa fa-check-square-o"></i> EDUCACION Y TRABAJO
+                                            </h4>
+
+                                            <div class="form-group col-sm-5">
+                                                <div class="row">
+                                                    <label for="educationLevelId">{{'PersonRegistration::PersonRegistration:PersonExternalInformationEducationLevel'
+                                                        | abpLocalization
+                                                        }}:</label>
+                                                </div>
+                                                <div class="row">
+                                                    <input type="text" id="educationLevelId" class="form-control form-control-sm" formControlName="educationLevel" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-sm-2"></div>
+                                            <div class="form-group col-sm-5">
+                                                <div class="row">
+                                                    <label for="professionId">{{'PersonRegistration::PersonRegistration:PersonExternalInformationProfession'
+                                                        | abpLocalization
+                                                        }}:</label>
+                                                </div>
+                                                <div class="row">
+                                                    <input type="text" id="professionId" class="form-control form-control-sm" formControlName="profession" />
+                                                </div>
+                                            </div>
+
+
+                                            <div class="form-group col-sm-5">
+                                                <div class="row">
+                                                    <label for="occupationId">{{'PersonRegistration::PersonRegistration:PersonExternalInformationOccupation'
+                                                        | abpLocalization
+                                                        }}:</label>
+                                                </div>
+                                                <div class="row">
+                                                    <input type="text" id="occupationId" class="form-control form-control-sm" formControlName="occupation" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-sm-2"></div>
+                                            <div class="form-group col-sm-5">
+                                                <div class="row">
+                                                    <label for="permanenceRecordNumberId">{{'PersonRegistration::PersonRegistration:PersonExternalInformationPermanenceRecordNumber'
+                                                        | abpLocalization
+                                                        }}:</label>
+                                                </div>
+                                                <div class="row">
+                                                    <input type="text" id="permanenceRecordNumberId" class="form-control form-control-sm" formControlName="permanenceRecordNumber" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <br />
+
+
+
+                        <div class="row">
+                            <div class="col-md-6 text-center">
+                                <button type="submit" [disabled]="formPersonalData.invalid || procesando" class="btn btn-primary btn-lg">
+                                    <i class="fa fa-spinner fa-spin" *ngIf="procesando"></i>
+                                    <i class="fa fa-check-circle" aria-hidden="true" *ngIf="!procesando"></i> {{
+                                    'PersonRegistration::PersonRegistration:PersonalInformationAcceptButton' |
+                                    abpLocalization }}
+                                </button>
+                            </div>
+                            <div class="col-md-6 text-center">
+                                <button type="button" class="btn btn-danger btn-lg" [disabled]="procesando" (click)="showConfirmationReject()">
+                                    <i class="fa fa-times-circle" aria-hidden="true"></i> {{
+                                    'PersonRegistration::PersonRegistration:PersonalInformationRejectButton' |
+                                    abpLocalization }}
+                                </button>
+                            </div>
+                        </div>
+
+
+                    </form>
+
+                </div>
+
+            </div>
+
+
+
+
+        </ng-container>
+
+        <ng-container *ngIf="finalSectionReject">
+            <div class="row justify-content-center">
+                <div class="col-sm-6">
+                    <div class="card shadow p-3 mb-5 bg-white rounded">
+                        <div class="card-body">
+                            <div class="row align-items-center">
+                                <div class="col-2">
+                                    <i class="fas fa-exclamation-circle fa-3x"></i>
+                                </div>
+                                <div class="col">
+                                    <p class="text-danger">
+                                        <strong>
+                                            {{ 'PersonRegistration::PersonRegistration:PersonalInformationRejectText' |
+                                            abpLocalization }}
+                                        </strong>
+                                    </p>
+                                </div>
+
+                            </div>
+
+                            <div class="row justify-content-end">
+                                <button type="button" class="btn btn-primary btn-sm" (click)="return()">
+                                    <i class="fa fa-check-circle"></i>
+                                    {{'PersonRegistration::PersonRegistration:PersonalInformationAcceptButton' |
+                                    abpLocalization }}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+
+        <ng-container *ngIf="finalSectionAccept">
+            <div class="row justify-content-center">
+                <div class="col-sm-6">
+                    <div class="card shadow p-3 mb-5 bg-white rounded">
+                        <div class="card-body">
+
+                            <div class="text-center text-success mb-4"><i aria-hidden="true" class="fa fa-check fa-5x"></i>
+                            </div>
+
+                            <div class="row align-items-center">
+                                <div class="col-2">
+                                    <i class="fas fa-mail-bulk fa-3x text-success"></i>
+                                </div>
+                                <div class="col">
+                                    <p>
+                                        <strong>
+                                            {{ 'PersonRegistration::PersonRegistration:PersonalInformationAcceptText' |
+                                            abpLocalization }}
+                                        </strong>
+                                    </p>
+                                </div>
+
+                            </div>
+
+                            <div class="row justify-content-end">
+                                <button type="button" class="btn btn-primary btn-md" (click)="login()">
+                                    <i class="fas fa-sign-in-alt"></i> {{
+                                    'AbpAccount::Login' | abpLocalization
+                                    }}
+                                </button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+
+        <!-- Seccion error -->
+        <ng-container *ngIf="errorSection">
+            <div class="row justify-content-center">
+                <div class="col-sm-6">
+                    <div class="card shadow p-3 mb-5 bg-white rounded">
+                        <div class="card-body">
+                            <div class="row align-items-center">
+                                <div class="col-2">
+                                    <i class="fas fa-exclamation-circle fa-3x text-danger"></i>
+                                </div>
+                                <div class="col">
+                                    <p class="text-danger">
+                                        <!-- <strong> -->
+                                        {{errorSectionMessage}}
+                                        <!-- </strong> -->
+                                    </p>
+                                </div>
+
+                            </div>
+
+                            <div class="row justify-content-end">
+                                <button type="button" class="btn btn-primary btn-md" (click)="return()">
+                                    <i class="fa fa-check-circle"></i>
+                                    {{'PersonRegistration::PersonRegistration:PersonalInformationAcceptButton' |
+                                    abpLocalization }}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+
+    </div>
+
+
+</div>
+
+
+<abp-modal [(visible)]="isRegisterHelpOpen" size="Large">
+    <ng-template #abpBody>
+        <img [src]="ayudaRegistroUrl" alt="" width="460" height="562">
+    </ng-template>
+</abp-modal>

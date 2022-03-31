@@ -1,0 +1,38 @@
+.bkGround {
+    background-repeat: no-repeat;
+    height: auto;
+}
+
+h2 {
+    color: white;
+    margin: 2px 0px 2px
+}
+h3 {
+    margin-top: 10px;
+    color: white;
+    font-size: 14px;
+    text-decoration: none;
+    font-family: 'Gotham', sans-serif;
+}
+
+.fa-home {
+    font-size: 22px;
+    color: white;
+    width: 5%;
+    float: left;
+}
+
+.LinkMenu {
+    color: white;
+    font-size: small;
+    text-decoration: none;
+    font-family: 'Gotham', sans-serif;
+}
+
+.DivMenuDynamic {
+    float: left;
+    margin-left: 15px;
+}
+a:hover{
+    color:yellow;
+}

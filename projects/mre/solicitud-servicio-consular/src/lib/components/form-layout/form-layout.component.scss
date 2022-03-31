@@ -1,0 +1,33 @@
+:host input {
+    padding: 0px 8px 0px 8px;
+    margin-bottom: 0.3rem;
+}
+
+span {
+    margin-bottom: 3px;
+}
+
+label {
+    font-size: smaller;
+    margin-bottom: 0.1em;
+}
+
+//--------------------------
+input.ng-valid {
+    border-color: #28a745;
+}
+
+.green-icon {
+    color: #28a745;
+}
+
+.red-icon {
+    color: #dc3545;
+}
+
+input.ng-touched.ng-invalid {
+    border-color: #dc3545;
+}
+select{
+    margin-bottom: 3px;
+}  

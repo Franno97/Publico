@@ -1,0 +1,28 @@
+<ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs">
+  <li [ngbNavItem]="1" >
+    <a ngbNavLink (click)="visited(0)">{{ tabsHeader[0] }}</a>
+    <!-- <a ngbNavLink [ngClass]="{'bg-success':linkVisited[0]}" (click)="visited(0)">{{ tabsHeader[0] }}</a> -->
+    <ng-template ngbNavContent>
+      <ng-content select="[tab0]" ></ng-content>
+    </ng-template>
+  </li>
+  <li [ngbNavItem]="2"  >
+    <a ngbNavLink (click)="visited(1)">{{ tabsHeader[1] }}</a>
+    <ng-template ngbNavContent>
+      <ng-content select="[tab1]"></ng-content>
+    </ng-template>
+  </li>
+  <li [ngbNavItem]="3" >
+    <a ngbNavLink (click)="visited(2)">{{ tabsHeader[2] }}</a>
+    <ng-template ngbNavContent>
+      <ng-content select="[tab2]"></ng-content>
+    </ng-template>
+  </li>
+  <li [ngbNavItem]="4" >
+    <a ngbNavLink (click)="visited(3)">{{ tabsHeader[3] }}</a>
+    <ng-template ngbNavContent>
+      <ng-content select="[tab3]"></ng-content>
+    </ng-template>
+  </li>
+</ul>
+<div [ngbNavOutlet]="nav" class="mt-2"></div>

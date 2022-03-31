@@ -1,0 +1,59 @@
+<lib-form-template [formTitle]="formTitle">
+    <div class="col" form-content>
+        <!-- <br>
+        <lib-table-view filtrosArrValue=true [tabHeader]='tabHeader' [tabDataSource]='tabDataSource' pagination=true
+            (rowClicked)="rowClickedEvent($event)"></lib-table-view> -->
+
+        <br />
+        <div class="row">
+            <div class="col-10">
+                <input class="form-control" [(ngModel)]="filtro" aria-label="buscar" type="text" placeholder="filtro"
+                    (keyup)="aplicarFiltro($event)">
+            </div>
+            <div class="col-2">
+                <button class="btn btn-secondary btn-sm" type="button" (click)="limpiarBusqueda()"><i
+                        class="fa fa-ban mr-1"></i>Limpiar</button>
+            </div>
+
+        </div>
+
+        <ngx-datatable #tablaPendientes [rows]="registrosMostrar" [count]="registrosMostrar.length"
+            [limit]="registrosPorPagina" [rowHeight]="'auto'" default>
+
+            <ngx-datatable-column [maxWidth]="50" [sortable]="false">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    <div ngbDropdown container="body" class="d-inline-block">
+                        <button class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown"
+                            aria-haspopup="true" ngbDropdownToggle>
+                            <i class="fa fa-cog mr-1"></i>
+                        </button>
+                        <div ngbDropdownMenu *ngIf="row.permiteSeleccionar">
+                            <button ngbDropdownItem class="btn btn-sm"
+                                (click)="rowClickedEvent({option:'Seleccionar',data:row})">Seleccionar</button>
+                        </div>
+                    </div>
+                </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column [width]="130" [name]="'Nro trámite'" prop="numero">
+            </ngx-datatable-column>
+            <ngx-datatable-column [name]="'Solicitante'" prop="solicitante.nombres">
+            </ngx-datatable-column>
+            <ngx-datatable-column [name]="'Beneficiario'">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    {{row.beneficiario.nombres + ' '+row.beneficiario.primerApellido+'
+                    '+row.beneficiario.segundoApellido}}
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column [name]="'Fecha de trámite'" prop="fecha">
+            </ngx-datatable-column>
+            <ngx-datatable-column [name]="'Rol asignado'" prop="rolAsigando">
+            </ngx-datatable-column>
+            <ngx-datatable-column [name]="'Estado de trámite'" prop="estadoFinal">
+            </ngx-datatable-column>
+        </ngx-datatable>
+
+
+        <hr>
+    </div>
+</lib-form-template>
